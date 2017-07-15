@@ -1,0 +1,48 @@
+import java.text.SimpleDateFormat
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
+    defaultConfig {
+        applicationId "kiat.anhong.appsale"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            storeFile file('H:/Project/AndroidStudio/anhong.jks')
+            keyAlias 'key'
+            storePassword '12199712'
+            keyPassword 'anhhong'
+        }
+    }
+    buildTypes {
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            String date = new SimpleDateFormat("dd_MM").format(new Date())
+            outputFileName = "AppSale-v${variant.versionName}-" + date + "-${variant.name}.apk"
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'org.jsoup:jsoup:1.10.3'
+    testCompile 'junit:junit:4.12'
+    implementation 'com.google.android.gms:play-services-ads:11.0.2'
+}
